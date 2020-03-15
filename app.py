@@ -29,7 +29,7 @@ def init():
     totaldata  = soup.find_all('div',{'class':'maincounter-number'})
     ultimaAtualizacao = soup.find('div',{'class':'content-inner'}).find_all('div')[1].text
     print(ultimaAtualizacao)
-    return jsonify({'paises':coronaData,'totalCasos':float(totaldata[0].text[1,-1].replace(",","")),'totalMortes':float(totaldata[1].text[1,-1].replace(",","")),'totalCurados':float(totaldata[2].text[1,-1].replace(",",""))})
+    return jsonify({'paises':coronaData,'totalCasos':float(totaldata[0].text[1:-1].replace(",","")),'totalMortes':float(totaldata[1].text[1:-1].replace(",","")),'totalCurados':float(totaldata[2].text[1,:-1].replace(",","")),'ultimaAtualizacao':ultimaAtualizacao[14:]})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
