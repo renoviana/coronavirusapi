@@ -11,7 +11,7 @@ CORS(app)
 
 def conversor(arrayTd):    
     return {
-        'pais': arrayTd[0].text if arrayTd[0].text != " " else "0",
+        'pais': arrayTd[0].text[1:-1] if arrayTd[0].text != " " else "0",
         'totalCasos': float(arrayTd[1].text.replace(',','') if arrayTd[1].text != " " else "0"),
         'novosCasos': float(arrayTd[2].text[2:-1].replace(',','') if arrayTd[2].text != " " else "0"),
         'totalMortes': float(arrayTd[3].text[1:-1].replace(',','') if arrayTd[3].text != " " else "0"),
@@ -26,7 +26,7 @@ def conversor(arrayTd):
 def init():
     soup = BeautifulSoup(requests.get('https://www.worldometers.info/coronavirus').text, 'html.parser')
     coronaData = [conversor(tr.find_all('td') ) for tr in soup.find('table',{'id':'main_table_countries'}).find_all('tr')[1:]]
-    return jsonify(coronaData)
+    return jsonify({'paises':coronaData})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
