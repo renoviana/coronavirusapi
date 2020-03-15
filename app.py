@@ -26,7 +26,8 @@ def conversor(arrayTd):
 def init():
     soup = BeautifulSoup(requests.get('https://www.worldometers.info/coronavirus').text, 'html.parser')
     coronaData = [conversor(tr.find_all('td') ) for tr in soup.find('table',{'id':'main_table_countries'}).find_all('tr')[1:]]
-    return jsonify({'paises':coronaData})
+    totaldata  = soup.find_all('div',{'class':'maincounter-number'})
+    return jsonify({'paises':coronaData,'totalCasos':totaldata[0].text,'totalMortes':totaldata[1].text,'totalCurados':totaldata[2].text})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
