@@ -27,9 +27,8 @@ def init():
     soup = BeautifulSoup(requests.get('https://www.worldometers.info/coronavirus').text, 'html.parser')
     coronaData = [conversor(tr.find_all('td') ) for tr in soup.find('table',{'id':'main_table_countries'}).find_all('tr')[1:]]
     totaldata  = soup.find_all('div',{'class':'maincounter-number'})
-    ultimaAtualizacao = soup.find('div',{'class':'content-inner'}).find_all('div')[1].text
-    print(ultimaAtualizacao)
-    return jsonify({'paises':coronaData,'totalCasos':float(totaldata[0].text[1:-1].replace(",","")),'totalMortes':float(totaldata[1].text[1:-1].replace(",","")),'totalCurados':float(totaldata[2].text[1,:-1].replace(",","")),'ultimaAtualizacao':ultimaAtualizacao[14:]})
+    ultimaAtualizacao = soup.find('div',{'class':'content-inner'}).find_all('div')[1].text[14:]
+    return jsonify({'paises':coronaData,'totalCasos':float(totaldata[0].text[1:-1].replace(",","")),'totalMortes':float(totaldata[1].text[1:-1].replace(",","")),'totalCurados':float(totaldata[2].text[1:-1].replace(",","")),'ultimaAtualizacao':ultimaAtualizacao})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
