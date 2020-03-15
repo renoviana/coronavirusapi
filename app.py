@@ -23,7 +23,7 @@ def conversor(arrayTd):
     }
 
 @app.route('/')
-def getRodada(serie, rodada):
+def init(serie, rodada):
     soup = BeautifulSoup(requests.get('https://www.worldometers.info/coronavirus').text, 'html.parser')
     coronaData = [conversor(tr.find_all('td') ) for tr in soup.find('table',{'id':'main_table_countries'}).find_all('tr')[1:]]
     return jsonify(coronaData)
